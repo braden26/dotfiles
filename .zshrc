@@ -16,7 +16,7 @@ compinit
 
 # Powerline
 powerline-daemon -q
-. /usr/lib/python3.7/site-packages/powerline/bindings/zsh/powerline.zsh
+. /usr/lib/python3.8/site-packages/powerline/bindings/zsh/powerline.zsh
 
 # Quick Directories
 alias src="cd ~/src"

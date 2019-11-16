@@ -1,5 +1,8 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhistcnt =7
+let g:netrw_dirhistcnt =0
+let g:netrw_dirhist_0='/home/braden/tmp/herbstluftwm-0.7.2/src'
+let g:netrw_dirhist_9='/home/braden/tmp/herbstluftwm-0.7.2'
+let g:netrw_dirhist_8='/home/braden/.config/st'
 let g:netrw_dirhist_7='/home/braden/tmp/st'
 let g:netrw_dirhist_6='/home/braden/tmp'
 let g:netrw_dirhist_5='/home/braden'
