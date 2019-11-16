@@ -11,22 +11,13 @@ hc emit_hook reload
 ### STARTUP ####
 
 ## Variables ##
-# if you have a super key you will be much happier with Mod set to Mod4
-# Mod=Mod									# Use alt as the main modifier
+## if you have a super key you will be much happier with Mod set to Mod4
+##  Mod=Mod									# Use alt as the main modifier
 Mod=Mod4									# Use the super key as the main modifier
 
+panel=~/.config/polybar/launch.sh			# turn on for polybar
 wallpaper=~/Pictures/autumnwallpaper.jpg
 trackpad='SYNA2393:00 06CB:7A13 Touchpad'
-
-
-## Polybar
-#panel=~/.config/polybar/launch.sh			# turn on for polybar
-[ -x "$panel" ] || panel=/etc/xdg/herbstluftwm/panel.sh
-for monitor in $(herbstclient list_monitors | cut -d: -f1) ; do
-	# start it on each monitor
-	"$panel" $monitor &
-	hc pad $monitor 0 0 0 0 # TOP RGT BTM LFT
-done
 
 ## Theming ##
 dblue='#00203b'
@@ -52,6 +43,7 @@ hc spawn feh --bg-scale $wallpaper
 hc spawn sudo xinput set-prop 'SYNA2393:00 06CB:7A13 Touchpad' "libinput Tapping Enabled" 1
 hc spawn sudo xinput set-prop 'SYNA2393:00 06CB:7A13 Touchpad' "libinput Tapping Enabled Default" 1
 hc spawn sudo xinput set-prop 'SYNA2393:00 06CB:7A13 Touchpad' "libinput Natural Scrolling Enabled" 1
+#hc spawn sudo xinput set-prop $trackpad "libinput Natural Scrolling Enabled" 1
 hc spawn sudo xinput set-prop 'SYNA2393:00 06CB:7A13 Touchpad' "libinput Natural Scrolling Enabled Default" 1
 hc spawn sudo xinput set-prop 'SYNA2393:00 06CB:7A13 Touchpad' "libinput Middle Emulation Enabled" 1
 hc spawn sudo xinput set-prop 'SYNA2393:00 06CB:7A13 Touchpad' "libinput Middle Emulation Enabled Default" 1
@@ -71,9 +63,6 @@ hc spawn compton
 hc keyunbind --all
 
 ## My Bindings ##
-
-# DWM
-hc keybind $Mod+Alt+d wmexec dwm
 
 # Lockscreen
 hc keybind $Mod-Control-q spawn i3lock -u -i ~/Pictures/autumnwallpaper.png
@@ -108,7 +97,7 @@ hc keybind $Mod-Shift-XF86MonBrightnessDown spawn sudo light -U 10
 
 ## Toggle Polybar ON/OFF
 hc keybind $Mod-n spawn ~/.config/herbstluftwm/off.sh
-hc keybind $Mod-Shift-n spawn ~/.config/herbstluftwm/on.sh
+hc keybind $Mod-b spawn ~/.config/herbstluftwm/on.sh
 
 
 ## Default Bindings ##
@@ -117,9 +106,7 @@ hc keybind $Mod-Shift-p herbstclient quit
 hc keybind $Mod-Shift-e quit
 hc keybind $Mod-Shift-r reload
 hc keybind $Mod-Shift-q close
-#hc keybind $Mod-Return spawn ${TERMINAL:-urxvt} # use your $TERMINAL with xterm as fallback
-hc keybind $Mod-Return spawn ${TERMINAL:-st} # use your $TERMINAL with xterm as fallback
-
+hc keybind $Mod-Return spawn ${TERMINAL:-urxvt} # use your $TERMINAL with xterm as fallback
 
 # basic movement
 # focusing clients
@@ -290,6 +277,14 @@ for i in ${MON_NUMS[@]} ; do
     else
         hc add_monitor ${MON_RES[$i]};
     fi
+done
+
+## Polybar
+[ -x "$panel" ] || panel=/etc/xdg/herbstluftwm/panel.sh
+for monitor in $(herbstclient list_monitors | cut -d: -f1) ; do
+	# start it on each monitor
+	"$panel" $monitor &
+	hc pad $monitor 0 0 26 0 # TOP RGT BTM LFT
 done
 
 hc detect_monitors

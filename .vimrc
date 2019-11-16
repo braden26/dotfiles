@@ -1,23 +1,397 @@
-" Better Clipboard
-set clipboard=unnamedplus
 
-" Syntax Highlighting
-filetype plugin on
+"""" Current Settings
+filetype plugin on					" Syntax Highlighting
 syntax on
+let g:powerline_pycmd="py3"			" Powerline
 
-" Powerline
-let g:powerline_pycmd="py3"
-set laststatus=2
+"" number							" Show Line number
+set nu
 
-" Tabs and Spacing
-set tabstop=4
-set softtabstop=4
+"" wildmenu							" Wild menu
+set wmnu							" When on, commandline completion operates
+									" in an enhanced mode. When pressing
+									" wildchar, defualt tab, for completion,
+									" possible matches are shown above command
+									" line 
 
-" Show Line number
-set number
+"" laststatus						" Changes when last window has status line
+set ls=2							" 0: never
+									" 1: only if there are at least 2 windows
+									" 2: always
 
-" Wild menu
-set wildmenu
+"" lazyredraw						" Only refreshes screen when necessary
+set lz								" Screen is not redrawn while exuting macros, registers,
+									" or commands that have not been typed.
 
-" Redraw only when need to, makes macros faster apparently
+"" autoread							" refreshes file if changed
+set ar
 
+"" wrap								" wraps lines
+set	wrap							"
+
+"" wrapmargin						" Number of char form right border where 
+"set wm								" wrapping begins. When typing beyond this
+									" limit, end of line 
+"" wrapscan							
+set ws								
+
+"" sidescroll						" Min number of columns to scroll
+"set ss								" horizontally when wrap is off
+
+"" sidescrolloff					" Min number of columns to eep to left and
+"set siso							" right ofthe cursor if nowrap is set.
+									" if this is >0 while sidescroll is
+									" non-zero makes some content visible in
+									" the line you are scrolling horizonally,
+									" except the beginning. Setting this
+									" option to a large value will keep the
+									" cursor horizontally centered
+							
+"" Spellchecking
+"set spell
+set spelllang=en,de
+
+"" visualbell						" blink on error
+"set vb								
+
+"" novisualbell
+set novisualbell
+set t_vb=
+set errorbells
+set tm=500
+
+set encoding=utf8
+
+set ffs=unix,dos,mac
+
+"" ruler							" line and column number on right of statusline
+set	ru								
+
+"" hidden							" allows for hidden buffers instead of
+									" closing them
+set hid								
+
+"" bufhidden						" option specifies what happens when a
+									" buffer is no longer in window
+set bh=hide							" <empty> - global hidden option
+									" hide - hides the buffer, not unloading
+									"		 it
+									" unload - unload the buffer
+									" delete - delete buffer from buffer list
+									" wipe - wipe out the buffer from buffer
+									"		 list
+									" unload, delete, wipe change a buffer
+									" without warning, use with caution
+
+"" ttyfast							" Fast rendering terminal
+set	tf								
+
+"" ttyscroll						" Max number of lines to scroll. For
+set tsl=3							" terminals where scrolling is slow,
+									" setting this to a low number may help
+
+"" showmode							" show INSERT, REPLACE, VISUAL modes in statusbar
+set	smd								
+
+"" showcmd							" show cmd
+set	sc								
+
+"" nocompatible						" don't try to be vi compliant								
+set nocompatible
+
+"" magic							" regex
+"et magic							" default on, only turn off for special cases
+
+"" map leader
+let mapleader = ","
+
+"" fast saving
+nmap <leader>w :w!<cr>
+
+"" fast save and quit
+nmap <leader>wq :wq!<cr>
+
+"" sudo save
+command W w !sudo tee % > /dev/null
+
+"filetype off						" Help force plugins to load correctly when tunred back on
+
+""" IDK
+"" autochdir						" Change to current working dir and delete buffers when closed
+set acd
+"set background="dark"				" "dark", "light"
+:set bg=dark
+"" binary							" viewing binaries
+"set bin
+
+""" Backup
+""  backup							" backups file before writing
+"set bk
+
+" backupcopy						" when writing and making backup, "yes", "no", "auto"
+"set bkc=auto
+
+"" backupdir						" backup directory
+"set bdir=~/.vim/backup/
+
+"" backupext={file}					" string appended to file
+"set bex={file}
+
+"" backupskip						" if file matches list of file patterns,
+									" no backup is made
+"set bsk=
+set nobackup
+set nowb
+set noswapfile
+
+
+""" Tabs and Spacing
+"" tabstop							" Number of spaces a tab counts for
+set ts=4							
+
+"" smartab							" When on, tab inserts blanks based on shiftwidth,
+set sta								" tabstop, or softtabstop. BKSP will
+									" delete a shiftwidth worth of space
+									" When off, tab inserts blanks based on
+									" tabsop or shiftwidth. shiftwidth is only
+									" used for shifting text left or right
+									" What gets shifted depends on expandtab
+
+"" softtabstop						" Number of spaces tab counts for when
+set sts=4							" performing editng options, such as inserting tabs or BKSP
+									" Mix of spaces and tabs added.
+
+"" shiftwidth						" Spaces used for each autoindent
+set sw=4								
+									
+"" expandtab						" converts tabs to spaces
+"set et
+
+"" noshiftround						" sets shift round off
+"set sr
+
+set lbr
+
+"" textwidth						" maximum width of text inserted
+									" longer lines will be broken after
+									" whitespace to fit this width. 0 disables
+									" this. textwidth is 0 when paste is set
+set tw=500
+
+
+""" Indent
+"" autoindent						" copies current indent to next line
+set ai								
+
+"" smartindent						" better autoindent
+set si								" 
+
+"" smartcase						" Overrides ignorecase if pattern contains
+set scs								" upper case letters
+
+" Only on if cindnent is on
+"" cindent							" stricter rules for C programs
+set cin
+
+"" cinkeys							" keys that cause reindenting of line in insert mode 
+"set cink
+
+"" cinoptions						" options for cindent
+"set cnio
+
+"" cinwords							" Words start extra indent in next line if smartindent or cident
+"set cinw
+
+""" Search
+"" incsearch						" searches as char are entered
+set is
+
+"" hlsearch							" highlight
+set hls
+
+"" ignorecase						" ignore case in search patterns
+set ic
+
+"" showmatch						" When a bracket is inserted, briefly jump to
+set sm								" the matching one
+
+"" match
+set mat=2							" How long to blink brackets in tenths of a second
+
+									" turn off search highlighting with <CR> carriage return
+nnoremap <CR> :nohlsearch<CR><CR>	
+									" turns highlighting off after enter is pressed
+
+"nnoremap / /\v						 
+"vnoremap / /\v						
+									" figure out difference between these
+									" search types
+""" Clipboard
+" clipboard							" sets clipboard to behave to following ways:
+set cb=autoselect
+									" unnamed - clipboard register '*' for yank,
+									"		   delete, change, and put that
+									"		   normally would be placed in
+									"		   unnamed
+									" unnamedplus - uses register '+' for
+									"				everything but yank, which is in '*'
+									"			    and '+'
+									" autoselect - when in visual mode, vim
+									"			   tries to use global
+									"			   selection or use register
+									"			   '*'
+									" autoselectml - autoselect, but for
+									" modeless only  
+									" html - when clipboard has HTML
+									"		 this will be used for pasting,
+									"		 marks text as html when copied
+									" exclude:{pattern} - pattern that is
+									" matched against the terminal, if there's
+									" a match, no connection to X server is
+									" made				  
+
+""" Cursor
+"" scrolloff						" lines loaded before and after cursor i think
+set so=2
+
+"" scroll							" Number of lines scrolled with CTRL-U,CTRL-D
+"set scr							" Half the lines in a window by default
+									
+"" scrollbind						" Current window scrolls as scollbind
+"set scb							" windows. Useful for comparing files
+									
+"" scrolljump						" Min number of lines to scroll when 
+set sj=1							" cursor goes off screen
+
+""" Mouse and Trackpad
+"" mouse							" Allows mouse usage in different modes
+set mouse=a							" Different modes:
+									" n Normal mode
+									" v Visual mode
+									" i Insert mode
+									" c Command-line
+									" h all previous when editing a help file
+									" a all previous
+									" r for |hit-enter| and |more-prompt| prompt
+									" Little reason not to use a for all modes
+
+"" mousefoucs						" When on, window the mouse pointer is on
+									" is automaticaly activated. When changing
+									" windows focus another way, pointer is
+									" moved to window with keyboard focus.
+set mousef							" off by defaut as it makes pull down menus goofy
+									" according to docs. I suppose without
+									" pull down menus it would be fine, thus I
+									" activate it
+
+"" mousehide						" When on, mouse pointer is hidden when
+"set mh off							" typing and restored once moved.
+
+"" mousemodel						" Sets the model to use for the mouse.
+"set mousem							" Name mostly specifies what rmb is for:
+									" extend - Right mouse button extends a
+									"		   selection. Works like xterm
+									" popup - Right mouse button pops up a
+									"		   menu. The shifted left mouse
+									"		   button extends a selection.
+									"		   Works like Windows
+									" popup_setpos - Like popup, but cursor
+									"				 will be moved to position
+									"				 mouse was clicked.
+									" Overview of what button does for each model:
+									" MOUSE			extend				popup(_setpops)
+									" LEFT CLICK	place cursor		place cursor
+									" LEFT DRAG		start selection		start selection
+									" SHIFT-LEFT	search word			extend selection
+									" RIGHT CLICK	extend selection	popup menu (place cursor)
+									" RIGHT DRAG	extend selection	-
+									" MIDDLE CLICK	paste				paste
+									" 
+									" popup model has right mouse button
+									" produce a popup menu. This must be
+									" defined in popup-menu.
+"" mouseshape						" Controls what pointer is in different modes
+"set mouses							" In a normal window:
+									"	n - Normal mode
+									"	v - Visual mode
+									"	ve - Visual mode with selection exclusive
+									"	o - Operator-pending mode
+									"	i - Insert mode
+									"	r - Replace mode
+									" Others:
+									"	c - appending to the command-line
+									"	ci - inserting in the command-line
+									"	cr - replacing in the comman-line
+									"	m - at the 'HIT ENTER' or 'More' prompts
+									"	ml - idem, but cursor last line
+									"	e - any mode, pointer below last window
+									"	s - any mode, pointer on status line
+									"	sd - any mode, whule dragging on status line
+									"	vs - any mode, pointer on vertical separator line
+									"	vd - any mode, while dragging vertical separator line
+									"	a - everywhere
+									" The shape is one of the following: 
+									" avail name looks like 
+									" w x   arrow		  Normal mouse pointer
+									" w x	blank		  no pointer at all (use with care)
+									" w x	beam		  I-beam
+									" w x	updown		  up-down sizing arrows
+									" w x	leftright	  left-right sizing arrows
+									" w x	busy		  System busy  pointer
+									" w x	no			  System no input pointer
+									"   x	udsizing	  indicates up-down resizing
+									"   x	lrsizing	  indicates left-right resizing
+									"   x	crosshair	  like a big thin +
+									"   x	hand1		  black hand
+									"   x	hand2		  white hand
+									"   x	pencil		  pencil
+									"   x	question	  big ?
+									"   x	rightup-arrow arrow pointing right-up
+									" w x	up-arrow	  arrow pointing up
+									"   x	<number>	  any X11 pointer number (X11/cursorfont.h)
+									" w in avail indicaes available for Windows
+									" x in avail indicates available for X11
+									" Example: 
+									" :set mouseshape=s:udsizing,m:no
+
+"" mousetime						" Maximum number of msec between two
+"set moust=							" clicks for double click							
+
+""" Completion
+"" complete							" specifies how ins-completion works for CTRL-P, CTRL-P
+set cpt=w,b,u,U,i,d,t				" and whole line CTRL-X, CTRL-L
+									" w - scan buffers from other windows
+									" b - scan other loaded buffers on that
+									"	  buffer list
+									" u - scan the unloaded buffers that are
+									"	  not in the buffer list
+									" U - scan buffers not in buffer list
+									" k - scan files given with dictionary
+									"	  option
+									" kspell - use spell checking
+									" k{dict} - scan file {dict}, several k
+									"			flags can be given, ex:
+									"			set cpt=k/usr/dict/*,k~/spanish
+									" s - scan files given with thesaurus
+									"	  option
+									" i - scan current and included files
+									" d - scan current and included files for
+									"	  defined name or macro CTRL-X, CTRL-D
+									" ] - tag completion
+									" t - same as "]"
+""" Traverse line breaks
+set whichwrap=b,s,<,>,[,]
+
+""" Status line
+"" statusline						" 
+"sol								" 
+									" 
+
+""" Plugins
+"" loadplugins						" Allows plugin scripts to be loaded
+"set lpl									
+
+""" Colors
+"" color scheme in ~/.config/colors/
+"" vim color scheme in ~/.vim/colors/
+colorscheme solarized

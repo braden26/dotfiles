@@ -8,54 +8,81 @@ hc() {
 
 hc emit_hook reload
 
-### STAARTUP ####
+### STARTUP ####
 
-# Polybar
-# panel=~/.config/polybar/launch.sh
+## Variables ##
+# if you have a super key you will be much happier with Mod set to Mod4
+# Mod=Mod									# Use alt as the main modifier
+Mod=Mod4									# Use the super key as the main modifier
+
+wallpaper=~/Pictures/autumnwallpaper.jpg
+trackpad='SYNA2393:00 06CB:7A13 Touchpad'
+
+
+## Polybar
+#panel=~/.config/polybar/launch.sh			# turn on for polybar
 [ -x "$panel" ] || panel=/etc/xdg/herbstluftwm/panel.sh
 for monitor in $(herbstclient list_monitors | cut -d: -f1) ; do
-    # start it on each monitor
-     "$panel" $monitor &
-		hc pad $monitor 0 0 0 0 # TOP RGT BTM LFT
+	# start it on each monitor
+	"$panel" $monitor &
+	hc pad $monitor 0 0 0 0 # TOP RGT BTM LFT
 done
 
+## Theming ##
+dblue='#00203b'
+lblue='#0074d8'
+bgrey='#6791a2'
+egg='#edf2f4'
+pwhite='#ffffff'
+pblack='#000000'
+	# fill these in later
+border='#6791a2'
+	# innerborder=
+	# outerborder=
+
 # Wallpaper
-hc spawn feh --bg-scale ~/Pictures/autumnwallpaper.jpg
+hc spawn feh --bg-scale $wallpaper
 
 # Trackpad
+#setprop=sudo xinput --set-prop $trackpad
+#hc spawn $setprop "libinput Tapping Enabled" 1
+#hc spawn $setprop "libinput Tapping Enabled Default" 1
+#hc spawn $setprop "libinput Natural Scrolling Enabled" 1
+
 hc spawn sudo xinput set-prop 'SYNA2393:00 06CB:7A13 Touchpad' "libinput Tapping Enabled" 1
+hc spawn sudo xinput set-prop 'SYNA2393:00 06CB:7A13 Touchpad' "libinput Tapping Enabled Default" 1
 hc spawn sudo xinput set-prop 'SYNA2393:00 06CB:7A13 Touchpad' "libinput Natural Scrolling Enabled" 1
+hc spawn sudo xinput set-prop 'SYNA2393:00 06CB:7A13 Touchpad' "libinput Natural Scrolling Enabled Default" 1
 hc spawn sudo xinput set-prop 'SYNA2393:00 06CB:7A13 Touchpad' "libinput Middle Emulation Enabled" 1
-hc spawn sudo xinput set-prop 'SYNA2393:00 06CB:7A13 Touchpad' "313" 0
-hc spawn sudo xinput set-prop 'SYNA2393:00 06CB:7A13 Touchpad' "301" 1, 1, 1
-hc spwan sudo xinput et-prop "SYNA2393:00 06CB:7A13 Touchpad" 288 0
+hc spawn sudo xinput set-prop 'SYNA2393:00 06CB:7A13 Touchpad' "libinput Middle Emulation Enabled Default" 1
+hc spawn sudo xinput set-prop 'SYNA2393:00 06CB:7A13 Touchpad' "libinput Drag Enabled" 1 
+hc spawn sudo xinput set-prop 'SYNA2393:00 06CB:7A13 Touchpad' "libinput Disable While Typing Enabled" 1
 
 # Misc
 hc spawn compton
 
-# remove all existing keybindings
-hc keyunbind --all
+# turn on once fix for spotify class name not working for tab switching
+#  hc spawn pavucontrol
+#  spawn spotify
 
 ### KEYBINDS ###
 
-# Var
-# if you have a super key you will be much happier with Mod set to Mod4
-#Mod=Mod1    # Use alt as the main modifier
-Mod=Mod4   # Use the super key as the main modifier
+# remove all existing keybindings
+hc keyunbind --all
 
 ## My Bindings ##
+
+# DWM
+hc keybind $Mod+Alt+d wmexec dwm
 
 # Lockscreen
 hc keybind $Mod-Control-q spawn i3lock -u -i ~/Pictures/autumnwallpaper.png
 
-# Applications
+## Applications ##
 hc keybind $Mod-d spawn rofi -show run
 hc keybind $Mod-b spawn google-chrome-stable
 hc keybind $Mod-v spawn code
 hc keybind $Mod-Alt-v spawn eclipse
-
-## Toggle Polybar ##
-#hc keybind $Mod-Alt-Return spawn ~/.config/herbstluftwm/launch.sh
 
 # audio
 hc keybind XF86AudioRaiseVolume spawn amixer set -q Master 5%+
@@ -74,13 +101,25 @@ hc keybind $Mod-XF86MonBrightnessDown spawn sudo light -U 1
 hc keybind $Mod-Shift-XF86MonBrightnessUp spawn sudo light -A 10
 hc keybind $Mod-Shift-XF86MonBrightnessDown spawn sudo light -U 10
 
+# FIX THESE
+
+# i3
+#hc keybind $Mod-Control-i hc wmexec i3
+
+## Toggle Polybar ON/OFF
+hc keybind $Mod-n spawn ~/.config/herbstluftwm/off.sh
+hc keybind $Mod-Shift-n spawn ~/.config/herbstluftwm/on.sh
+
+
 ## Default Bindings ##
 
 hc keybind $Mod-Shift-p herbstclient quit
 hc keybind $Mod-Shift-e quit
 hc keybind $Mod-Shift-r reload
 hc keybind $Mod-Shift-q close
-hc keybind $Mod-Return spawn ${TERMINAL:-urxvt} # use your $TERMINAL with xterm as fallback
+#hc keybind $Mod-Return spawn ${TERMINAL:-urxvt} # use your $TERMINAL with xterm as fallback
+hc keybind $Mod-Return spawn ${TERMINAL:-st} # use your $TERMINAL with xterm as fallback
+
 
 # basic movement
 # focusing clients
@@ -174,14 +213,6 @@ hc keybind $Mod-i jumpto urgent
 
 ### RICING ###
 
-## Colors ##
-dblue='#00203b'
-lblue='#0074d8'
-bgrey='#6791a2'
-egg='#edf2f4'
-pwhite='#ffffff'
-pblack='#000000'
-
 # theme
 hc attr theme.tiling.reset 1
 hc attr theme.floating.reset 1
@@ -198,29 +229,38 @@ hc set frame_gap 0
 hc attr theme.active.color '#454545'			# '#ea734b'
 hc attr theme.normal.color '#454545'			# '#454545'
 hc attr theme.urgent.color orange				# orange
-hc attr theme.inner_width 1						# 1
+hc attr theme.inner_width 0						# 1
 hc attr theme.inner_color black					# black	
-hc attr theme.border_width 1					# 3
-hc attr theme.floating.border_width	1			# 4
-hc attr theme.floating.outer_width 1			# 1
+hc attr theme.border_width 0					# 3
+hc attr theme.floating.border_width	0			# 4
+hc attr theme.floating.outer_width 0			# 1
 hc attr theme.floating.outer_color black		# black
-hc attr theme.active.inner_color $lblue # '#000000'		# '#3E4A00'
-hc attr theme.active.outer_color $bgrey # '#000000'		# '#3E4A00'
+hc attr theme.active.inner_color $border # '#000000'		# '#3E4A00'
+hc attr theme.active.outer_color $border # '#000000'		# '#3E4A00'
 hc attr theme.background_color '#141414'		# '#141414'
 
-hc set window_gap 1
-hc set frame_padding 1
-hc set smart_window_surroundings 0 
+hc set window_gap 0
+hc set frame_padding 0
+hc set smart_window_surroundings 0
 hc set smart_frame_surroundings 0
 hc set mouse_recenter_gap 0
 
-# rules
+### RULES ###
+
 hc unrule -F
-#hc rule class=XTerm tag=3 # move all xterms to tag 3
-hc rule focus=on # normally focus new clients
-#hc rule focus=off # normally do not focus new clients
+
+#hc rule class=XTerm tag=3			# move all xterms to tag 3
+
+#hc rule class=Spotify tag=9		# supposed to move spotify to tab 9...
+
+#hc rule instance=pavu-control tag=9	# Moves pavucontrol to tab 9
+
+hc rule focus=on					# normally focus new clients
+#hc rule focus=off					# normally do not focus new clients
+
 # give focus to most common terminals
 #hc rule class~'(.*[Rr]xvt.*|.*[Tt]erm|Konsole)' focus=on
+
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)' pseudotile=on
 hc rule windowtype='_NET_WM_WINDOW_TYPE_DIALOG' focus=on
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK|DESKTOP)' manage=off
@@ -233,4 +273,23 @@ hc unlock
 # do multi monitor setup here, e.g.:
 # hc set_monitors 1280x1024+0+0 1280x1024+1280+0
 # or simply:
+
+while [[ $(hc list_monitors | wc -l) -gt 1 ]]; do
+    hc remove_monitor 1
+done
+
+# tags
+NUM_MONS=$(xrandr --current | grep "^\w.* connected" | wc -l)
+MON_RES=( $(xrandr --current | grep "^\w.* connected" | awk '{print $3}') )
+MON_NUMS=$( python -c "for i in range(${NUM_MONS}): print(i)" )
+
+for i in ${MON_NUMS[@]} ; do
+    echo "${i}"
+    if [[ $i == '0' ]]; then
+        hc move_monitor $i ${MON_RES[$i]};
+    else
+        hc add_monitor ${MON_RES[$i]};
+    fi
+done
+
 hc detect_monitors
