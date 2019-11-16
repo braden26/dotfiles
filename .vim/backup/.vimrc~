@@ -23,30 +23,43 @@ set ls=2							" 0: never
 set lz								" Screen is not redrawn while exuting macros, registers,
 									" or commands that have not been typed.
 
-"" mouse							" Allows mouse usage in different modes
-set mouse=a							" Different modes:
-									" n Normal mode
-									" v Visual mode
-									" i Insert mode
-									" c Command-line
-									" h all previous when editing a help file
-									" a all previous
-									" r for |hit-enter| and |more-prompt| prompt
-									" Little reason not to use a for all modes
-
 "" autoread							" refreshes file if changed
 set ar
 
 "" wrap								" wraps lines
 set	wrap							"
+
 "" wrapmargin						" Number of char form right border where 
 "set wm								" wrapping begins. When typing beyond this
 									" limit, end of line 
-"" wrapscan							"
-set ws								"
+"" wrapscan							
+set ws								
+
+"" sidescroll						" Min number of columns to scroll
+"set ss								" horizontally when wrap is off
+
+"" sidescrolloff					" Min number of columns to eep to left and
+"set siso							" right ofthe cursor if nowrap is set.
+									" if this is >0 while sidescroll is
+									" non-zero makes some content visible in
+									" the line you are scrolling horizonally,
+									" except the beginning. Setting this
+									" option to a large value will keep the
+									" cursor horizontally centered
+							
 
 "" visualbell						" blink on error
-set vb								
+"set vb								
+
+"" novisualbell
+set novisualbell
+set t_vb=
+set errorbells
+set tm=500
+
+set encoding=utf8
+
+set ffs=unix,dos,mac
 
 "" ruler							" line and column number on right of statusline
 set	ru								
@@ -70,6 +83,10 @@ set bh=hide							" <empty> - global hidden option
 "" ttyfast							" Fast rendering terminal
 set	tf								
 
+"" ttyscroll						" Max number of lines to scroll. For
+set tsl=3							" terminals where scrolling is slow,
+									" setting this to a low number may help
+
 "" showmode							" show INSERT, REPLACE, VISUAL modes in statusbar
 set	smd								
 
@@ -77,7 +94,22 @@ set	smd
 set	sc								
 
 "" nocompatible						" don't try to be vi compliant								
-"set nocompatible
+set nocompatible
+
+"" magic							" regex
+"et magic							" default on, only turn off for special cases
+
+"" map leader
+let mapleader = ","
+
+"" fast saving
+nmap <leader>w :w!<cr>
+
+"" fast save and quit
+nmap <leader>wq :wq!<cr>
+
+"" sudo save
+command W w !sudo tee % > /dev/null
 
 "filetype off						" Help force plugins to load correctly when tunred back on
 
@@ -85,24 +117,19 @@ set	sc
 "" autochdir						" Change to current working dir and delete buffers when closed
 set acd
 "set background="dark"				" "dark", "light"
-set bg=dark
+:set bg=dark
 "" binary							" viewing binaries
 "set bin
-"set 								" 
-"set 								" 
-"set 								" 
-"set 								" 
-"set 								" 
 
 """ Backup
 ""  backup							" backups file before writing
-set bk
+"set bk
 
-" backupcopy						" when writing and making backup, how its done, "yes", "no", "auto"
-set bkc=auto
+" backupcopy						" when writing and making backup, "yes", "no", "auto"
+"set bkc=auto
 
 "" backupdir						" backup directory
-set bdir=~/.vim/backup/
+"set bdir=~/.vim/backup/
 
 "" backupext={file}					" string appended to file
 "set bex={file}
@@ -110,6 +137,10 @@ set bdir=~/.vim/backup/
 "" backupskip						" if file matches list of file patterns,
 									" no backup is made
 "set bsk=
+set nobackup
+set nowb
+set noswapfile
+
 
 """ Tabs and Spacing
 "" tabstop							" Number of spaces a tab counts for
@@ -136,11 +167,13 @@ set sw=4
 "" noshiftround						" sets shift round off
 "set sr
 
+set lbr
+
 "" textwidth						" maximum width of text inserted
 									" longer lines will be broken after
 									" whitespace to fit this width. 0 disables
 									" this. textwidth is 0 when paste is set
-set tw=0
+set tw=500
 
 
 """ Indent
@@ -169,10 +202,23 @@ set cin
 """ Search
 "" incsearch						" searches as char are entered
 set is
+
 "" hlsearch							" highlight
-set hl
+set hls
+
+"" ignorecase						" ignore case in search patterns
+set ic
+
+"" showmatch						" When a bracket is inserted, briefly jump to
+set sm								" the matching one
+
+"" match
+set mat=2							" How long to blink brackets in tenths of a second
+
 									" turn off search highlighting with <CR> carriage return
-nnoremap <CR> :nohlsearch<CR><CR>
+nnoremap <CR> :nohlsearch<CR><CR>	
+									" turns highlighting off after enter is pressed
+
 "nnoremap / /\v						 
 "vnoremap / /\v						
 									" figure out difference between these
@@ -203,7 +249,110 @@ set cb=autoselect
 
 """ Cursor
 "" scrolloff						" lines loaded before and after cursor i think
-set so=5
+set so=2
+
+"" scroll							" Number of lines scrolled with CTRL-U,CTRL-D
+"set scr							" Half the lines in a window by default
+									
+"" scrollbind						" Current window scrolls as scollbind
+"set scb							" windows. Useful for comparing files
+									
+"" scrolljump						" Min number of lines to scroll when 
+set sj=1							" cursor goes off screen
+
+""" Mouse and Trackpad
+"" mouse							" Allows mouse usage in different modes
+set mouse=a							" Different modes:
+									" n Normal mode
+									" v Visual mode
+									" i Insert mode
+									" c Command-line
+									" h all previous when editing a help file
+									" a all previous
+									" r for |hit-enter| and |more-prompt| prompt
+									" Little reason not to use a for all modes
+
+"" mousefoucs						" When on, window the mouse pointer is on
+									" is automaticaly activated. When changing
+									" windows focus another way, pointer is
+									" moved to window with keyboard focus.
+set mousef							" off by defaut as it makes pull down menus goofy
+									" according to docs. I suppose without
+									" pull down menus it would be fine, thus I
+									" activate it
+
+"" mousehide						" When on, mouse pointer is hidden when
+"set mh off							" typing and restored once moved.
+
+"" mousemodel						" Sets the model to use for the mouse.
+"set mousem							" Name mostly specifies what rmb is for:
+									" extend - Right mouse button extends a
+									"		   selection. Works like xterm
+									" popup - Right mouse button pops up a
+									"		   menu. The shifted left mouse
+									"		   button extends a selection.
+									"		   Works like Windows
+									" popup_setpos - Like popup, but cursor
+									"				 will be moved to position
+									"				 mouse was clicked.
+									" Overview of what button does for each model:
+									" MOUSE			extend				popup(_setpops)
+									" LEFT CLICK	place cursor		place cursor
+									" LEFT DRAG		start selection		start selection
+									" SHIFT-LEFT	search word			extend selection
+									" RIGHT CLICK	extend selection	popup menu (place cursor)
+									" RIGHT DRAG	extend selection	-
+									" MIDDLE CLICK	paste				paste
+									" 
+									" popup model has right mouse button
+									" produce a popup menu. This must be
+									" defined in popup-menu.
+"" mouseshape						" Controls what pointer is in different modes
+"set mouses							" In a normal window:
+									"	n - Normal mode
+									"	v - Visual mode
+									"	ve - Visual mode with selection exclusive
+									"	o - Operator-pending mode
+									"	i - Insert mode
+									"	r - Replace mode
+									" Others:
+									"	c - appending to the command-line
+									"	ci - inserting in the command-line
+									"	cr - replacing in the comman-line
+									"	m - at the 'HIT ENTER' or 'More' prompts
+									"	ml - idem, but cursor last line
+									"	e - any mode, pointer below last window
+									"	s - any mode, pointer on status line
+									"	sd - any mode, whule dragging on status line
+									"	vs - any mode, pointer on vertical separator line
+									"	vd - any mode, while dragging vertical separator line
+									"	a - everywhere
+									" The shape is one of the following: 
+									" avail name looks like 
+									" w x   arrow		  Normal mouse pointer
+									" w x	blank		  no pointer at all (use with care)
+									" w x	beam		  I-beam
+									" w x	updown		  up-down sizing arrows
+									" w x	leftright	  left-right sizing arrows
+									" w x	busy		  System busy  pointer
+									" w x	no			  System no input pointer
+									"   x	udsizing	  indicates up-down resizing
+									"   x	lrsizing	  indicates left-right resizing
+									"   x	crosshair	  like a big thin +
+									"   x	hand1		  black hand
+									"   x	hand2		  white hand
+									"   x	pencil		  pencil
+									"   x	question	  big ?
+									"   x	rightup-arrow arrow pointing right-up
+									" w x	up-arrow	  arrow pointing up
+									"   x	<number>	  any X11 pointer number (X11/cursorfont.h)
+									" w in avail indicaes available for Windows
+									" x in avail indicates available for X11
+									" Example: 
+									" :set mouseshape=s:udsizing,m:no
+
+"" mousetime						" Maximum number of msec between two
+"set moust=							" clicks for double click							
 
 """ Completion
 "" complete							" specifies how ins-completion works for CTRL-P, CTRL-P
@@ -227,6 +376,17 @@ set cpt=w,b,u,U,i,d,t				" and whole line CTRL-X, CTRL-L
 									"	  defined name or macro CTRL-X, CTRL-D
 									" ] - tag completion
 									" t - same as "]"
+
+""" Status line
+"" statusline						" 
+"sol								" 
+									" 
+set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line :\ %l\ \ Column:\ %c
+
+
+""" Plugins
+"" loadplugins						" Allows plugin scripts to be loaded
+"set lpl									
 
 """ Colors
 "" color scheme in ~/.config/colors/
