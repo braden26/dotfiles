@@ -81,6 +81,7 @@ hc keybind $Mod-Control-q spawn i3lock -u -i ~/Pictures/autumnwallpaper.png
 ## Applications ##
 hc keybind $Mod-d spawn rofi -show run
 hc keybind $Mod-b spawn google-chrome-stable
+hc keybind $Mod-Alt-b spawn firefox
 hc keybind $Mod-v spawn code
 hc keybind $Mod-Alt-v spawn eclipse
 
