@@ -176,7 +176,7 @@ set lbr
 									" longer lines will be broken after
 									" whitespace to fit this width. 0 disables
 									" this. textwidth is 0 when paste is set
-set tw=500
+set tw=0
 
 
 """ Indent
@@ -388,9 +388,13 @@ set whichwrap=b,s,<,>,[,]
 									" 
 
 """ Plugins
-"" loadplugins						" Allows plugin scripts to be loaded
-"set lpl									
+set loadplugins						" Allows plugin scripts to be loaded
 
+"set lpl									
+let Tlist_Compact_Format = 1
+let Tlist_GainFocus_On_ToggleOpen = 1
+let Tlist_Close_On_Select = 1
+nnoremap <C-l> :TlistToggle<CR>
 """ Colors
 "" color scheme in ~/.config/colors/
 "" vim color scheme in ~/.vim/colors/

@@ -21,6 +21,8 @@ powerline-daemon -q
 # Quick Directories
 alias src="cd ~/src"
 alias herbst="cd ~/.config/herbstluftwm"
+export LFS=/mnt/lfs
+alias lfs="cd $LFS"
 
 plugins=(
 	git
